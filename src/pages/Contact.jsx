@@ -76,7 +76,6 @@ export default function Contact() {
           <button disabled={status === 'sending'} type="submit" className="inline-flex items-center rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:opacity-60">
             {status === 'sending' ? 'Versturen…' : status === 'sent' ? 'Verzonden' : 'Verstuur bericht'}
           </button>
-          <a href="mailto:patrick@madebypatrick.nl" className="text-sm text-slate-300 underline hover:no-underline">of open e-mail direct</a>
         </div>
       </form>
     </div>
