@@ -65,22 +65,6 @@ export default function Navbar() {
             <NavLink to="/contact" className={navItemClass} onClick={() => setMenuOpen(false)}>
               Contact
             </NavLink>
-            <a
-              href="https://clubinfoboard.madebypatrick.nl"
-              target="_blank"
-              rel="noreferrer"
-              className="block px-3 py-2 rounded-md text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-700/60 transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              Club Info Board
-            </a>
-            <a
-              href="mailto:patrick@madebypatrick.nl"
-              className="mt-2 inline-flex w-full justify-center items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
-              onClick={() => setMenuOpen(false)}
-            >
-              Hire Me
-            </a>
           </div>
         </div>
       )}

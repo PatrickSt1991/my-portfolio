@@ -9,16 +9,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style id="kofi-enforce-right">
-      .ko-fi-overlay, .kofi-overlay, #ko-fi-overlay, #kofi-widget-overlay, [class*="kofi"], [id*="kofi"] {
-        position: fixed !important;
-        left: auto !important;
-        right: 16px !important;
-        bottom: 16px !important;
-        top: auto !important;
-        z-index: 2147483647 !important;
-      }
-    </style>
+<style id="kofi-enforce-right">
+  .ko-fi-overlay, .kofi-overlay, #ko-fi-overlay, #kofi-widget-overlay, [class*="kofi"], [id*="kofi"] {
+    position: fixed !important;
+    left: auto !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    top: auto !important;
+    z-index: 2147483647 !important;
+  }
+  
+  /* Hide Ko-fi on mobile devices */
+  @media (max-width: 768px) {
+    .ko-fi-overlay, .kofi-overlay, #ko-fi-overlay, #kofi-widget-overlay, [class*="kofi"], [id*="kofi"] {
+      display: none !important;
+    }
+  }
+</style>
     <title>madebypatrick.nl — Patrick Stel</title>
   </head>
   <body>
