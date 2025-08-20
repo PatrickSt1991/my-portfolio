@@ -1,5 +1,4 @@
-import React from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -9,7 +8,7 @@ import Contact from "./pages/Contact";
 
 export default function App() {
   return (
-    <HashRouter>
+    <Router>
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">
@@ -22,6 +21,6 @@ export default function App() {
         </main>
         <Footer />
       </div>
-    </HashRouter>
+    </Router>
   );
 }

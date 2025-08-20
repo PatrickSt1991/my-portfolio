@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -7,10 +7,10 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-slate-300">© {new Date().getFullYear()} Patrick Stel — madebypatrick.nl</div>
           <div className="flex items-center gap-4 text-sm">
-            <a className="text-slate-300 hover:text-white" href="/">Home</a>
-            <a className="text-slate-300 hover:text-white" href="#/projects">Projects</a>
-            <a className="text-slate-300 hover:text-white" href="#/about">About</a>
-            <a className="text-slate-300 hover:text-white" href="#/contact">Contact</a>
+            <Link className="text-slate-300 hover:text-white" to="/">Home</Link>
+            <Link className="text-slate-300 hover:text-white" to="/projects">Projects</Link>
+            <Link className="text-slate-300 hover:text-white" to="/about">About</Link>
+            <Link className="text-slate-300 hover:text-white" to="/contact">Contact</Link>
             <a className="text-slate-300 hover:text-white" href="https://github.com/PatrickSt1991" target="_blank" rel="noreferrer" aria-label="GitHub">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fillRule="evenodd" d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58l-.01-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.35-1.75-1.35-1.75-1.1-.75.08-.74.08-.74 1.22.09 1.87 1.27 1.87 1.27 1.08 1.86 2.83 1.32 3.52 1.01.11-.78.42-1.32.76-1.62-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.39 1.24-3.23-.12-.3-.54-1.51.12-3.15 0 0 1.01-.32 3.31 1.23a11.5 11.5 0 0 1 6.02 0c2.3-1.55 3.3-1.23 3.3-1.23.67 1.64.25 2.85.13 3.15.77.84 1.23 1.92 1.23 3.23 0 4.61-2.8 5.62-5.47 5.92.43.37.81 1.11.81 2.24l-.01 3.32c0 .32.22.7.82.58A12 12 0 0 0 12 .5Z" clipRule="evenodd"/></svg>
             </a>

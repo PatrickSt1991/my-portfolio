@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import profielfoto from "../assets/patrick.jpg";
 import SectionHeading from "../components/SectionHeading";
 import LogosStrip from "../components/LogosStrip";
@@ -16,7 +17,12 @@ export default function Home() {
             Ik maak graag praktische dingen — van webapps tot slimme tools voor thuis.</p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <a href="mailto:patrick@madebypatrick.nl" className="inline-flex items-center rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">Neem contact op</a>
-              <a href="#/projects" className="inline-flex items-center rounded-md border border-slate-700 bg-slate-800/70 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700/80">Bekijk projecten</a>
+              <Link
+                to="/projects"
+                className="inline-flex items-center rounded-md border border-slate-700 bg-slate-800/70 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700/80"
+              >
+                Bekijk projecten
+              </Link>
               <a href="https://github.com/PatrickSt1991" target="_blank" rel="noreferrer" className="inline-flex items-center rounded-md border border-slate-700 bg-slate-800/70 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-700/80">GitHub</a>
             </div>
           </div>
