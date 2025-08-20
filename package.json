@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://patrickst1991.github.io/PatrickSt1991/",
+  "homepage": "https://madebypatrick.nl/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

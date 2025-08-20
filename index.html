@@ -4,10 +4,70 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Patrick's Portfolio</title>
+    <meta name="description" content="Portfolio van Patrick Stel — Technisch Applicatiebeheerder & Hobby Programmeur." />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style id="kofi-enforce-right">
+      .ko-fi-overlay, .kofi-overlay, #ko-fi-overlay, #kofi-widget-overlay, [class*="kofi"], [id*="kofi"] {
+        position: fixed !important;
+        left: auto !important;
+        right: 16px !important;
+        bottom: 16px !important;
+        top: auto !important;
+        z-index: 2147483647 !important;
+      }
+    </style>
+    <title>madebypatrick.nl — Patrick Stel</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+    <script>
+      window.addEventListener('load', function () {
+        try {
+          if (window.kofiWidgetOverlay && typeof window.kofiWidgetOverlay.draw === 'function') {
+            window.kofiWidgetOverlay.draw('patrickst', {
+              'type': 'floating-chat',
+              'floating-chat.donateButton.text': 'Support me',
+              'floating-chat.donateButton.background-color': '#323842',
+              'floating-chat.donateButton.text-color': '#fff',
+              'position': 'right'
+            });
+
+            // Enforce bottom-right positioning robustly
+            var applyKoFiPosition = function () {
+              var candidates = document.querySelectorAll('.ko-fi-overlay, .kofi-overlay, #ko-fi-overlay, #kofi-widget-overlay, [class*="kofi"], [id*="kofi"]');
+              candidates.forEach(function (el) {
+                try {
+                  el.style.position = 'fixed';
+                  el.style.left = 'auto';
+                  el.style.right = '16px';
+                  el.style.bottom = '16px';
+                  el.style.top = 'auto';
+                  el.style.zIndex = '2147483647';
+                } catch (e) {}
+              });
+            };
+
+            // Try for a while in case the widget mounts late
+            var tries = 0;
+            var forceRight = setInterval(function () {
+              applyKoFiPosition();
+              tries++;
+              if (tries > 150) clearInterval(forceRight);
+            }, 100);
+
+            // Also observe DOM changes to re-apply when widget updates itself
+            var observer = new MutationObserver(function () { applyKoFiPosition(); });
+            observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+          }
+        } catch (e) {
+          console.error('Ko-fi overlay init failed', e);
+        }
+      });
+    </script>
   </body>
 </html>
