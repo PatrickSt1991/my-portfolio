@@ -19,14 +19,14 @@ export default function About() {
       <section className="mt-6">
         <div className="rounded-xl border border-slate-800/60 bg-slate-800/70 p-6 shadow-sm">
           <p className="text-slate-300 leading-relaxed">
-            Patrick Stel, technisch applicatiebeheerder, nieuwsgierig naar hoe dingen werken.<br/>
-            Praktische oplossingen worden ontwikkeld – van webapps tot smart home tools – altijd met oog voor eenvoud, gebruiksgemak en betrouwbaarheid.
+            Patrick Stel, technisch applicatiebeheerder, ik ben nieuwsgierig naar hoe dingen werken.<br/>
+            Praktische oplossingen ontwikkel ik – van webapps tot smart home tools – altijd met oog voor eenvoud, gebruiksgemak en betrouwbaarheid.
             <br/><br/>
-            Daarnaast vind ik het leuk om quality time te hebben met mijn gezin en mag ik graag een potje gamen op de PlayStation met mijn vrienden.
+            Daarnaast vind ik het leuk om quality time te hebben met mijn gezin en speel ik graag een potje Warzone en Assassins Creed op de PlayStation met mijn vrienden.
             <br/><br/>
-            Het leven is al duur genoeg met alle betaalde applicaties, dus ik maak graag gratis oplossingen! mocht je een project hebben waar je mee helpen wilt, neem dan contact op.
+            Het leven is al duur genoeg met allerlei betaalde applicaties, dus ik maak graag gratis oplossingen! Mocht je een project hebben waar je mee wilt helpen of als je wilt dat ik je mee help, neem dan contactmet me op.
             <br/><br/>
-            Geen enkele website is gratis dus maak je gebruik van een tool en vind je het leuk, overweeg dan om een donatie te doen.
+            Geen enkele website is gratis dus maak je gebruik van een tool en vind je het leuk, dan wordt een kleine donatie zeer gewaardeerd!
           </p>
         </div>
       </section>

@@ -37,9 +37,6 @@ export default function Navbar() {
             <NavLink to="/" className={navItemClass} end>
               Home
             </NavLink>
-            <NavLink to="/about" className={navItemClass}>
-              About
-            </NavLink>
             <NavLink to="/projects" className={navItemClass}>
               Projects
             </NavLink>
@@ -69,9 +66,6 @@ export default function Navbar() {
           <div className="space-y-1 px-4 py-3">
             <NavLink to="/" end className={navItemClass} onClick={() => setMenuOpen(false)}>
               Home
-            </NavLink>
-            <NavLink to="/about" className={navItemClass} onClick={() => setMenuOpen(false)}>
-              About
             </NavLink>
             <NavLink to="/projects" className={navItemClass} onClick={() => setMenuOpen(false)}>
               Projects
