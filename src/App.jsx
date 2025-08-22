@@ -10,7 +10,7 @@ import ProjectDetail from "./pages/ProjectDetail";
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-[calc(100vh-10rem)] text-slate-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <Navbar />
         <main className="flex-1">
           <Routes>
