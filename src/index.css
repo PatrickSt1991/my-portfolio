@@ -2,6 +2,42 @@
 
 html, body, #root {
   height: 100%;
+  margin: 0;
+}
+
+/* Prevent layout shift when scrollbar appears */
+html {
+  /* modern browsers: reserve scrollbar gutter to avoid shifting */
+  scrollbar-gutter: stable;
+}
+body {
+  /* fallback: always show vertical scrollbar space (won't hide it) */
+  overflow-y: scroll;
+}
+
+/* app-level flex column so footer sits at bottom */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* main grows to take available space pushing footer to bottom */
+.page-content {
+  flex: 1 0 auto;
+  width: 1200px; /* fixed page width (keeps same width across pages) */
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 24px;
+  min-width: 320px;
+}
+
+/* Footer styling */
+.site-footer {
+  flex-shrink: 0;
+  padding: 20px 0;
+  text-align: center;
+  background: #f8f8f8;
 }
 
 /* Smooth font rendering and modern base */
