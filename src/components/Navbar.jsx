@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import PatrickLogo from "../assets/patrick_logo.svg"; // Make sure this path is correct
 
-export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Hide Ko-fi widget when menu is open (optional, from previous fix)
-  useEffect(() => {
-    const kofiIframe = document.querySelector('iframe[id^="kofi-wo-container-mobi"]');
-    if (kofiIframe) {
-      kofiIframe.style.display = menuOpen ? "none" : "block";
-    }
-  }, [menuOpen]);
-
+export default function Navbar({ menuOpen, setMenuOpen }) {
   const navItemClass = ({ isActive }) =>
     `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
       isActive ? "text-white bg-indigo-600" : "text-slate-200 hover:text-white hover:bg-slate-700/60"
@@ -28,7 +18,7 @@ export default function Navbar() {
                 src={PatrickLogo}
                 alt="Patrick Stel Logo"
                 className="h-56 w-56 md:h-60 md:w-60"
-                style={{ minWidth: "5rem", minHeight: "5rem" }} // Optional: ensures minimum size
+                style={{ minWidth: "5rem", minHeight: "5rem" }}
               />
             </Link>
           </div>
@@ -50,7 +40,15 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              className="h-6 w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               {menuOpen ? (
                 <path d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -79,5 +77,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-

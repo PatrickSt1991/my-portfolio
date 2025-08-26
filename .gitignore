@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vs/my-portfolio/v17/DocumentLayout.json
+.vs/VSWorkspaceState.json
+.vs/my-portfolio/v17/.wsuo
+.gitignore
