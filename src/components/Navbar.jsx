@@ -25,10 +25,10 @@ export default function Navbar({ menuOpen, setMenuOpen }) {
 
           <div className="hidden md:flex items-center gap-1">
             <NavLink to="/" className={navItemClass} end>
-              Home
+              Start
             </NavLink>
             <NavLink to="/projects" className={navItemClass}>
-              Projects
+              Projecten
             </NavLink>
             <NavLink to="/contact" className={navItemClass}>
               Contact

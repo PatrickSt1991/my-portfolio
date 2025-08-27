@@ -32,6 +32,7 @@ export default function ProjectDetail() {
 
       {/* Knoppen */}
       <div className="flex flex-wrap justify-center gap-4 my-8">
+        <Link to="/projects" className="inline-block rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 transition">← Terug naar projecten</Link>
         {project.download && (
           <a
             href={project.download}
@@ -73,10 +74,6 @@ export default function ProjectDetail() {
             Demo
           </a>
         )}
-      </div>
-
-      <div className="mt-8">
-        <Link to="/projects" className="text-slate-400 underline">← Terug naar projecten</Link>
       </div>
     </div>
   );

@@ -60,7 +60,11 @@ export default function Home() {
                   Digi Graf
                 </Link>
               </li>
-              <li>HA Afvalcontainer Cleaning</li>
+              <li>
+                <Link to="/projects/container-cleaning" className="text-indigo-400">
+                  Container Reinigingsintegratie
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

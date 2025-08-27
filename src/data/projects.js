@@ -1,6 +1,7 @@
-import dglogo from "../assets/digigraf-logo.png";
+import dglogo from "../assets/dg-logo.svg";
 import clublogo from "../assets/sport-team-manager-logo.svg";
 import tizenlogo from "../assets/jellyfin-tizen-logo.svg";
+import containerlogo from "../assets/ha-cc.svg"
 
 export const projects = [
   {
@@ -82,6 +83,22 @@ export const projects = [
         <li><b>Vooraf configureren:</b> stel server- en gebruikersinstellingen alvast in zodat je na installatie direct aan de slag kunt.</li>
       </ul>
     `,
+  },{
+    slug: "container-cleaning",
+    title: "Home Assistant - Container Reinigingsintegratie",
+    description: "Mis nooit meer een containerreiniging.",
+    repo: "https://github.com/PatrickSt1991/ha-afvalcontainer-cleaning",
+    download: "https://github.com/PatrickSt1991/ha-afvalcontainer-cleaning/releases/latest",
+    manual: "https://github.com/PatrickSt1991/ha-afvalcontainer-cleaning/blob/master/README.md",
+    image: containerlogo,
+    topContent: `
+      <h2 class="text-2xl font-bold mb-4">Container Reinigingsintegratie</h2>
+      <blockquote class="italic text-slate-400 mb-4">"Altijd snel en duidelijk inzicht in wanneer uw container wordt schoongemaakt."</blockquote>
+    `,
+    content: `
+    <p>Wilt u weten wanneer uw containers worden gereinigd?
+    Met deze integratie voegt u sensoren toe aan Home Assistant die de reinigingsdiensten bijhouden, zodat u nooit meer een schoonmaakbeurt mist.</p>
+    `
   },
 ];
 
