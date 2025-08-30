@@ -1,47 +1,60 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import PatrickLogo from "../assets/patrick_logo.svg"; // Make sure this path is correct
+import PatrickLogo from "../assets/patrick_logo.svg";
 
 export default function Navbar({ menuOpen, setMenuOpen }) {
   const navItemClass = ({ isActive }) =>
+    `block px-4 py-3 rounded-md text-base font-medium transition-colors w-full text-left ${
+      isActive 
+        ? "text-white bg-indigo-600" 
+        : "text-slate-200 hover:text-white hover:bg-slate-700/60"
+    }`;
+
+  const desktopNavItemClass = ({ isActive }) =>
     `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-      isActive ? "text-white bg-indigo-600" : "text-slate-200 hover:text-white hover:bg-slate-700/60"
+      isActive 
+        ? "text-white bg-indigo-600" 
+        : "text-slate-200 hover:text-white hover:bg-slate-700/60"
     }`;
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-800/60 bg-slate-800/70 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-3">
+          {/* Logo - Bigger sizing */}
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img
                 src={PatrickLogo}
                 alt="Patrick Stel Logo"
-                className="h-56 w-56 md:h-60 md:w-60"
-                style={{ minWidth: "5rem", minHeight: "5rem" }}
+                className="h-16 w-auto sm:h-20 md:h-24 object-contain"
+                style={{ minHeight: "4rem" }}
               />
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center gap-1">
-            <NavLink to="/" className={navItemClass} end>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            <NavLink to="/" className={desktopNavItemClass} end>
               Start
             </NavLink>
-            <NavLink to="/projects" className={navItemClass}>
+            <NavLink to="/projects" className={desktopNavItemClass}>
               Projecten
             </NavLink>
-            <NavLink to="/contact" className={navItemClass}>
+            <NavLink to="/contact" className={desktopNavItemClass}>
               Contact
             </NavLink>
           </div>
 
+          {/* Mobile Menu Button - Improved */}
           <button
-            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
+            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-200 hover:bg-slate-700/60 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            aria-label="Toggle navigation menu"
           >
             <svg
-              className="h-6 w-6"
+              className={`h-6 w-6 transition-transform duration-200 ${menuOpen ? 'rotate-180' : ''}`}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -59,16 +72,30 @@ export default function Navbar({ menuOpen, setMenuOpen }) {
         </div>
       </div>
 
+      {/* Mobile Menu - Improved Animation & Layout */}
       {menuOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-900/90">
-          <div className="space-y-1 px-4 py-3">
-            <NavLink to="/" end className={navItemClass} onClick={() => setMenuOpen(false)}>
-              Home
+        <div className="md:hidden border-t border-slate-800 bg-slate-900/95 backdrop-blur-sm animate-in slide-in-from-top-2 duration-200">
+          <div className="px-4 py-3 space-y-1">
+            <NavLink 
+              to="/" 
+              end 
+              className={navItemClass} 
+              onClick={() => setMenuOpen(false)}
+            >
+              Start
             </NavLink>
-            <NavLink to="/projects" className={navItemClass} onClick={() => setMenuOpen(false)}>
-              Projects
+            <NavLink 
+              to="/projects" 
+              className={navItemClass} 
+              onClick={() => setMenuOpen(false)}
+            >
+              Projecten
             </NavLink>
-            <NavLink to="/contact" className={navItemClass} onClick={() => setMenuOpen(false)}>
+            <NavLink 
+              to="/contact" 
+              className={navItemClass} 
+              onClick={() => setMenuOpen(false)}
+            >
               Contact
             </NavLink>
           </div>

@@ -25,14 +25,28 @@ body {
   flex-direction: column;
 }
 
-/* main grows to take available space pushing footer to bottom */
+/* MOBILE-OPTIMIZED: Responsive main content container */
 .page-content {
   flex: 1 0 auto;
-  width: 1200px; /* fixed page width (keeps same width across pages) */
+  width: 100%;
+  max-width: 1200px; /* Changed from fixed width to max-width */
   margin: 0 auto;
   box-sizing: border-box;
   padding: 24px;
   min-width: 320px;
+}
+
+/* Mobile-specific padding adjustments */
+@media (max-width: 768px) {
+  .page-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding: 12px;
+  }
 }
 
 /* Footer styling */
@@ -62,9 +76,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Dark mode base */
-/* Removed dark mode */
-
 /* Make images responsive */
 img {
   max-width: 100%;
@@ -72,10 +83,10 @@ img {
   display: block;
 }
 
-/* Responsive typography */
+/* MOBILE-OPTIMIZED: Responsive typography with better scaling */
 body {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: clamp(14px, 2.5vw, 16px); /* Fluid typography */
   line-height: 1.6;
   background: #0b1020;
   color: #fff;
@@ -89,24 +100,108 @@ body {
   padding: 1rem;
 }
 
-/* Responsive headings */
+/* MOBILE-OPTIMIZED: Responsive headings with better scaling */
 h1, h2, h3, h4, h5, h6 {
   word-break: break-word;
+  hyphens: auto; /* Better text wrapping on mobile */
 }
 
-/* Responsive layout tweaks */
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  line-height: 1.4;
+}
+
+/* MOBILE-OPTIMIZED: Better touch targets */
+button, a {
+  min-height: 44px; /* iOS recommended touch target */
+  min-width: 44px;
+}
+
+/* MOBILE-OPTIMIZED: Responsive layout tweaks */
 @media (max-width: 768px) {
   .container {
-    padding: 0.5rem;
+    padding: 1rem 0.75rem;
   }
-  body {
-    font-size: 15px;
+  
+  /* Better button spacing on mobile */
+  .flex.gap-3 {
+    gap: 0.5rem;
+  }
+  
+  /* Stack buttons vertically on very small screens */
+  .flex.flex-wrap.items-center.gap-3 {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .flex.flex-wrap.items-center.gap-3 > * {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 }
 
 /* For very small screens */
 @media (max-width: 480px) {
-  body {
-    font-size: 14px;
+  /* Ensure content doesn't get too cramped */
+  .px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Better spacing for cards */
+  .gap-6 {
+    gap: 1rem !important;
+  }
+  
+  .gap-10 {
+    gap: 1.5rem !important;
+  }
+}
+
+/* MOBILE-OPTIMIZED: Smooth scrolling and better mobile experience */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better mobile menu transitions */
+.mobile-menu-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s ease-out;
+}
+
+/* Prevent horizontal scrolling on mobile */
+body {
+  overflow-x: hidden;
+}
+
+/* Better mobile image handling */
+@media (max-width: 768px) {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Profile image responsive sizing */
+  .w-40.h-40 {
+    width: 8rem !important;
+    height: 8rem !important;
   }
 }
