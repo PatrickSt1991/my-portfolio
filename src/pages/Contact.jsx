@@ -14,7 +14,7 @@ export default function Contact() {
     setStatus("sending");
     setMessage("");
     try {
-      const resp = await fetch("https://formsubmit.co/ajax/patrick@madebypatrick.nl", {
+      const resp = await fetch("https://formsubmit.co/ajax/8d113d1a228c3d9a577379e64864e7a9", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
