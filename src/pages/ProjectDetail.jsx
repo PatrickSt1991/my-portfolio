@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
 import Seo from "../components/Seo";
+import RepoBadge from "../components/RepoBadge";
 
 const themes = {
   "digi-graf":          { gradient: "from-purple-50 dark:from-purple-900/20",  border: "from-purple-400 via-purple-300",  tag: "text-purple-700 bg-purple-50 border-purple-200 dark:text-purple-300 dark:bg-purple-900/30 dark:border-purple-800" },
@@ -104,7 +105,10 @@ export default function ProjectDetail() {
               <img src={project.image} alt={project.title} className="w-full h-full object-contain" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 leading-tight">{project.title}</h1>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 leading-tight">{project.title}</h1>
+                {project.repo && <RepoBadge repo={project.repo} className="text-sm" />}
+              </div>
               <p className="mt-2 text-slate-600 dark:text-slate-300">{project.description}</p>
               {project.tags && (
                 <div className="mt-3 flex flex-wrap gap-1.5">

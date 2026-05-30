@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import profielfoto from "../assets/patrick.jpg";
 import { projects } from "../data/projects";
 import Seo from "../components/Seo";
+import RepoBadge from "../components/RepoBadge";
+import { useGithub } from "../hooks/useGithub";
+import { formatCount } from "../data/github";
 
 const skills = [
   { name: "C#",             color: "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800" },
@@ -19,14 +22,21 @@ const skills = [
   { name: "GitHub",         color: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700" },
 ];
 
-const stats = [
-  { value: `${projects.length}`, label: "Projecten",   color: "text-indigo-600 dark:text-indigo-400" },
-  { value: "100%",               label: "Open Source", color: "text-emerald-600 dark:text-emerald-400" },
-  { value: "NL",                 label: "Nederland",   color: "text-sky-600 dark:text-sky-400" },
-  { value: "∞",                  label: "Koffie",      color: "text-amber-600 dark:text-amber-400" },
-];
+// Live GitHub-cijfers in de hero; placeholder "—" zolang ze laden of als de
+// API onbereikbaar is, zodat de tegels nooit leeg/kapot ogen.
+function buildStats(data) {
+  const t = data?.totals;
+  return [
+    { value: t ? formatCount(t.stars) : "—",  label: "GitHub sterren", color: "text-amber-500 dark:text-amber-400" },
+    { value: t ? `${t.repos}` : "—",          label: "Repositories",   color: "text-indigo-600 dark:text-indigo-400" },
+    { value: t ? `${t.followers}` : "—",      label: "Volgers",        color: "text-sky-600 dark:text-sky-400" },
+    { value: "100%",                          label: "Open Source",    color: "text-emerald-600 dark:text-emerald-400" },
+  ];
+}
 
 export default function Home() {
+  const { data } = useGithub();
+  const stats = buildStats(data);
   return (
     <div className="text-slate-800 dark:text-slate-200">
       <Seo
@@ -239,6 +249,7 @@ export default function Home() {
                     ))}
                   </div>
                 )}
+                {project.repo && <RepoBadge repo={project.repo} className="mt-3" />}
                 <div className="mt-4 flex items-center text-sm font-medium text-indigo-500 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
                   Bekijk project
                   <svg className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform"

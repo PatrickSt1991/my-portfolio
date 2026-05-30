@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
 import Seo from "../components/Seo";
+import RepoBadge from "../components/RepoBadge";
+import RepoCard from "../components/RepoCard";
+import { useGithub } from "../hooks/useGithub";
+import { GITHUB_USER } from "../data/github";
+
+// Normaliseer een repo-URL/slug naar "owner/name" (lowercase) voor vergelijken.
+function repoKey(ref) {
+  return ref
+    ? ref.replace(/^https?:\/\/github\.com\//i, "").replace(/\/+$/, "").toLowerCase()
+    : "";
+}
 
 const themes = {
   "digi-graf":          { imageBg: "from-purple-50 to-slate-50 dark:from-purple-900/20 dark:to-slate-800",  topBorder: "from-purple-400 via-purple-300",  tagColor: "text-purple-600 dark:text-purple-400" },
@@ -53,6 +64,13 @@ export default function Projects() {
   const allTagsOrdered = ["Alle", ...Object.keys(tagCounts)];
 
   const filtered = activeTag === "Alle" ? projects : projects.filter((p) => p.tags?.includes(activeTag));
+
+  // Live GitHub-repos die nog geen uitgelicht project zijn.
+  const { data: gh, loading: ghLoading, error: ghError } = useGithub();
+  const featuredKeys = new Set(projects.map((p) => repoKey(p.repo)));
+  const extraRepos = (gh?.repos || []).filter(
+    (r) => !featuredKeys.has(r.fullName.toLowerCase())
+  );
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 text-slate-800 dark:text-slate-200">
@@ -121,9 +139,12 @@ export default function Projects() {
                 </div>
 
                 <div className="flex flex-col flex-1 p-6">
-                  <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {project.title}
-                  </h2>
+                  <div className="flex items-start justify-between gap-3">
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {project.title}
+                    </h2>
+                    {project.repo && <RepoBadge repo={project.repo} className="mt-1 shrink-0" />}
+                  </div>
                   <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{project.description}</p>
 
                   {project.tags && (
@@ -181,6 +202,55 @@ export default function Projects() {
           })}
         </div>
       )}
+
+      {/* ── Meer op GitHub — live opgehaalde publieke repos ─────────── */}
+      <section className="mt-20">
+        <div className="flex items-center gap-4 mb-3">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+          <span className="text-xs font-semibold tracking-widest text-slate-400 dark:text-slate-500 uppercase shrink-0">Meer op GitHub</span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+        </div>
+        <p className="text-center text-sm text-slate-500 dark:text-slate-400 mb-8">
+          Al mijn publieke repositories, live opgehaald van GitHub.
+        </p>
+
+        {ghLoading && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="glass-card rounded-2xl p-5 h-36 animate-pulse" />
+            ))}
+          </div>
+        )}
+
+        {!ghLoading && ghError && (
+          <p className="text-center text-sm text-slate-400 dark:text-slate-500">
+            GitHub-gegevens konden even niet geladen worden.{" "}
+            <a href={`https://github.com/${GITHUB_USER}`} target="_blank" rel="noopener noreferrer"
+               className="text-indigo-600 dark:text-indigo-400 hover:underline">
+              Bekijk ze direct op GitHub →
+            </a>
+          </p>
+        )}
+
+        {!ghLoading && !ghError && extraRepos.length > 0 && (
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {extraRepos.map((r) => (
+                <RepoCard key={r.fullName} repo={r} />
+              ))}
+            </div>
+            <div className="mt-8 text-center">
+              <a href={`https://github.com/${GITHUB_USER}`} target="_blank" rel="noopener noreferrer"
+                 className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                Bekijk alles op GitHub
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 }
