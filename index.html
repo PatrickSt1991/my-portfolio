@@ -1,16 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/ps.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portfolio van Patrick Stel — Cloud Application Engineer & Hobby Developer." />
+
+    <!-- Primary meta -->
+    <title>Patrick Stel — Cloud Application Engineer & Developer</title>
+    <meta name="description" content="Portfolio van Patrick Stel — Cloud Application Engineer & hobby-developer. Open-source tools voor thuis (Home Assistant), sportclubs en bedrijven. Onder andere de Samsung Jellyfin Installer." />
+    <meta name="author" content="Patrick Stel" />
     <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://madebypatrick.nl/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="madebypatrick.nl" />
+    <meta property="og:title" content="Patrick Stel — Cloud Application Engineer & Developer" />
+    <meta property="og:description" content="Open-source tools voor thuis, sportclubs en bedrijven. Onder andere de Samsung Jellyfin Installer (1.4k+ ⭐)." />
+    <meta property="og:url" content="https://madebypatrick.nl/" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:image" content="https://madebypatrick.nl/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Patrick Stel — Cloud Application Engineer & Developer" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Patrick Stel — Cloud Application Engineer & Developer" />
+    <meta name="twitter:description" content="Open-source tools voor thuis, sportclubs en bedrijven. Onder andere de Samsung Jellyfin Installer." />
+    <meta name="twitter:image" content="https://madebypatrick.nl/og-image.png" />
+
+    <!-- JSON-LD: Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Patrick Stel",
+      "url": "https://madebypatrick.nl/",
+      "image": "https://madebypatrick.nl/og-image.png",
+      "jobTitle": "Cloud Application Engineer",
+      "nationality": "Dutch",
+      "sameAs": [
+        "https://github.com/PatrickSt1991",
+        "https://www.linkedin.com/in/patrick-stel/",
+        "https://ko-fi.com/patrickst"
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <title>madebypatrick.nl — Patrick Stel</title>
+    <!-- SPA redirect for GitHub Pages: restores the deep-link path stored by 404.html -->
+    <script>
+      (function () {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

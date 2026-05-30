@@ -3,7 +3,7 @@ import clublogo from "../assets/sport-team-manager-logo.svg";
 import tizenlogo from "../assets/jellyfin-tizen-logo.svg";
 import containerlogo from "../assets/ha-cc.svg";
 
-export const projects = [
+const projectList = [
   {
     slug: "digi-graf",
     title: "Digi Graf",
@@ -100,3 +100,17 @@ export const projects = [
     `,
   },
 ];
+
+// Featured first: lead with the Samsung Jellyfin Installer (1.4k+ ⭐),
+// then the rest. Drives both the homepage "Featured" grid (slice 0..3)
+// and ordering on the Projects page.
+const order = [
+  "jellyfin-2-samsung",
+  "club-info-board",
+  "digi-graf",
+  "container-cleaning",
+];
+
+export const projects = [...projectList].sort(
+  (a, b) => order.indexOf(a.slug) - order.indexOf(b.slug)
+);

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import profielfoto from "../assets/patrick.jpg";
 import { projects } from "../data/projects";
+import Seo from "../components/Seo";
 
 const skills = [
   { name: "C#",             color: "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800" },
@@ -28,6 +29,11 @@ const stats = [
 export default function Home() {
   return (
     <div className="text-slate-800 dark:text-slate-200">
+      <Seo
+        title="Patrick Stel — Cloud Application Engineer & Developer"
+        description="Portfolio van Patrick Stel. Open-source tools voor thuis (Home Assistant), sportclubs en bedrijven — waaronder de Samsung Jellyfin Installer."
+        path="/"
+      />
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <section className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden">
