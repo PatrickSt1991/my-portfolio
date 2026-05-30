@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Seo from "../components/Seo";
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
@@ -46,6 +47,11 @@ export default function Contact() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 text-slate-800 dark:text-slate-200">
+      <Seo
+        title="Contact — Patrick Stel"
+        description="Neem contact op met Patrick Stel voor vragen, ideeën of samenwerking."
+        path="/contact"
+      />
 
       <div className="mb-12">
         <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800

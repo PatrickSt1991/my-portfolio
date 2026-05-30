@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
+import Seo from "../components/Seo";
 
 const themes = {
   "digi-graf":          { imageBg: "from-purple-50 to-slate-50 dark:from-purple-900/20 dark:to-slate-800",  topBorder: "from-purple-400 via-purple-300",  tagColor: "text-purple-600 dark:text-purple-400" },
@@ -55,6 +56,11 @@ export default function Projects() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 text-slate-800 dark:text-slate-200">
+      <Seo
+        title="Projecten — Patrick Stel"
+        description="Open-source projecten van Patrick Stel: Samsung Jellyfin Installer, Club Info Board, Home Assistant integraties en meer."
+        path="/projects"
+      />
 
       {/* Header */}
       <div className="mb-10">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
+import Seo from "../components/Seo";
 
 const themes = {
   "digi-graf":          { gradient: "from-purple-50 dark:from-purple-900/20",  border: "from-purple-400 via-purple-300",  tag: "text-purple-700 bg-purple-50 border-purple-200 dark:text-purple-300 dark:bg-purple-900/30 dark:border-purple-800" },
@@ -56,6 +57,7 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-center py-20 px-4">
+        <Seo title="Project niet gevonden — Patrick Stel" description="Dit project bestaat niet of is verwijderd." path="/projects" />
         <div className="text-7xl font-bold text-slate-200 dark:text-slate-800 mb-4">404</div>
         <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Project niet gevonden</h2>
         <p className="text-slate-500 dark:text-slate-400 mb-8">Dit project bestaat niet of is verwijderd.</p>
@@ -77,6 +79,11 @@ export default function ProjectDetail() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-8 pb-16 text-slate-800 dark:text-slate-200">
+      <Seo
+        title={`${project.title} — Patrick Stel`}
+        description={project.description}
+        path={`/projects/${project.slug}`}
+      />
 
       {/* Back */}
       <Link to="/projects"
