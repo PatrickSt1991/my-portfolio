@@ -9,9 +9,7 @@ const projectList = [
     title: "Digi Graf",
     description: "Software oplossing voor uitvaartonderneming.",
     tags: ["C#", ".NET", "WPF", "SQL Server"],
-    repo: "https://github.com/PatrickSt1991/Uitvaartverzorging-Dossier-Registratie",
-    download: "https://github.com/PatrickSt1991/Uitvaartverzorging-Dossier-Registratie/releases/latest",
-    manual: "https://patrickst1991.github.io/Uitvaartverzorging-Dossier-Registratie/",
+    link: "https://digigraf.madebypatrick.nl",
     image: dglogo,
     topContent: `
       <blockquote>"Een revolutionaire oplossing voor de uitvaartbranche."</blockquote>
