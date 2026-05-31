@@ -7,8 +7,8 @@ const projectList = [
   {
     slug: "digi-graf",
     title: "Digi Graf",
-    description: "Software oplossing voor uitvaartonderneming.",
-    tags: ["C#", ".NET", "WPF", "SQL Server"],
+    description: "Webapplicatie voor uitvaartondernemingen.",
+    tags: ["C#", "ASP.NET Core", "React", "SQL Server"],
     link: "https://digigraf.madebypatrick.nl",
     image: dglogo,
     topContent: `
