@@ -1,0 +1,15 @@
+# SPA fallback for Apache shared hosting.
+# Serve real files/directories as-is; route everything else to index.html
+# so React Router can handle deep links like /projects on a hard refresh.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Leave existing files and directories alone (assets, og-image, sitemap, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else -> SPA entry point (200, no redirect)
+  RewriteRule ^ index.html [L]
+</IfModule>
