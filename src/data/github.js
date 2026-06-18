@@ -3,9 +3,9 @@
 
 export const GITHUB_USER = "PatrickSt1991";
 
-// Organisaties waarvan publieke repos ook meetellen (bv. het Jellyfin2Samsung
+// Organisaties waarvan publieke repos ook meetellen (bv. het Apps2Samsung
 // vlaggenschip dat naar de org is verhuisd).
-export const GITHUB_ORGS = ["Jellyfin2Samsung"];
+export const GITHUB_ORGS = ["Apps2Samsung"];
 
 // Repos die NIET in de automatische "Meer op GitHub" grid of de repo-telling
 // horen. Forks worden al automatisch weggelaten; dit is voor profiel-,
@@ -14,9 +14,9 @@ export const HIDDEN_REPOS = new Set(
   [
     "PatrickSt1991/my-portfolio", // deze site zelf
     "PatrickSt1991/PatrickSt1991", // profiel-README
-    "Jellyfin2Samsung/.github", // org-meta
-    "Jellyfin2Samsung/winget-samsung-jellyfin-installer", // packaging
-    "Jellyfin2Samsung/homebrew-samsung-jellyfin-installer", // packaging
+    "Apps2Samsung/.github", // org-meta
+    "Apps2Samsung/winget-samsung-jellyfin-installer", // packaging
+    "Apps2Samsung/homebrew-samsung-jellyfin-installer", // packaging
   ].map((s) => s.toLowerCase())
 );
 

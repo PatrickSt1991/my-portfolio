@@ -64,9 +64,9 @@ const projectList = [
     title: "Jellyfin 2 Samsung",
     description: "Applicatie om snel en eenvoudig Jellyfin op je Samsung Smart TV te installeren.",
     tags: ["C#", ".NET", "Tizen", "Samsung TV"],
-    repo: "https://github.com/Jellyfin2Samsung/Samsung-Jellyfin-Installer",
-    download: "https://github.com/Jellyfin2Samsung/Samsung-Jellyfin-Installer/releases/latest",
-    manual: "https://github.com/Jellyfin2Samsung/Samsung-Jellyfin-Installer/blob/master/README.md",
+    repo: "https://github.com/Apps2Samsung/Samsung-Jellyfin-Installer",
+    download: "https://github.com/Apps2Samsung/Samsung-Jellyfin-Installer/releases/latest",
+    manual: "https://github.com/Apps2Samsung/Samsung-Jellyfin-Installer/blob/master/README.md",
     image: tizenlogo,
     topContent: `
       <blockquote>"Stream je media zonder gedoe, direct op je TV."</blockquote>
