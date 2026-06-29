@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import profielfoto from "../assets/patrick.jpg";
 import { projects } from "../data/projects";
@@ -41,7 +40,7 @@ export default function Home() {
     <div className="text-slate-800 dark:text-slate-200">
       <Seo
         title="Patrick Stel — Cloud Application Engineer & Developer"
-        description="Portfolio van Patrick Stel. Open-source tools voor thuis (Home Assistant), sportclubs en bedrijven — waaronder de Samsung Jellyfin Installer."
+        description="Portfolio van Patrick Stel. Open-source tools voor thuis (Home Assistant), sportclubs en bedrijven — waaronder de Apps2Samsung Installer."
         path="/"
       />
 

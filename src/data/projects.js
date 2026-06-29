@@ -12,6 +12,7 @@ const projectList = [
     repo: "https://github.com/PatrickSt1991/Uitvaartverzorging-Dossier-Registratie",
     download: "https://github.com/PatrickSt1991/Uitvaartverzorging-Dossier-Registratie/releases/latest",
     manual: "https://patrickst1991.github.io/Uitvaartverzorging-Dossier-Registratie/",
+    link: "https://digigraf.madebypatrick.nl",
     image: dglogo,
     topContent: `
       <blockquote>"Een revolutionaire oplossing voor de uitvaartbranche."</blockquote>
@@ -60,17 +61,17 @@ const projectList = [
     `,
   },
   {
-    slug: "jellyfin-2-samsung",
-    title: "Jellyfin 2 Samsung",
-    description: "Applicatie om snel en eenvoudig Jellyfin op je Samsung Smart TV te installeren.",
-    tags: ["C#", ".NET", "Tizen", "Samsung TV"],
-    repo: "https://github.com/Apps2Samsung/Samsung-Jellyfin-Installer",
-    download: "https://github.com/Apps2Samsung/Samsung-Jellyfin-Installer/releases/latest",
-    manual: "https://github.com/Apps2Samsung/Samsung-Jellyfin-Installer/blob/master/README.md",
+    slug: "apps-2-samsung",
+    title: "Apps 2 Samsung",
+    description: "Applicatie om snel en eenvoudig apps op je Samsung Smart TV te installeren.",
+    tags: ["C#", ".NET", "Tizen", "Samsung TV", "WGT"],
+    repo: "https://github.com/Apps2Samsung/Apps2Samsung",
+    download: "https://github.com/Apps2Samsung/Apps2Samsung/releases/latest",
+    manual: "https://github.com/Apps2Samsung/Apps2Samsung/blob/master/README.md",
     image: tizenlogo,
     topContent: `
-      <blockquote>"Stream je media zonder gedoe, direct op je TV."</blockquote>
-      <p>Gebruiksvriendelijke tool die het installeren van de Jellyfin-app op Samsung Smart TV's moeiteloos automatiseert.</p>
+      <blockquote>"Installeer je apps zonder gedoe, direct op je TV."</blockquote>
+      <p>Gebruiksvriendelijke tool die het installeren van apps op Samsung Smart TV's moeiteloos automatiseert.</p>
     `,
     content: `
       <p class="mb-4">Met slechts enkele klikken ontdek je automatisch je TV's in het netwerk, kies je een release en versie, en laat je de rest over aan de installer.</p>

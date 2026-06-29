@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
 import Seo from "../components/Seo";
@@ -7,7 +6,7 @@ import RepoBadge from "../components/RepoBadge";
 const themes = {
   "digi-graf":          { gradient: "from-purple-50 dark:from-purple-900/20",  border: "from-purple-400 via-purple-300",  tag: "text-purple-700 bg-purple-50 border-purple-200 dark:text-purple-300 dark:bg-purple-900/30 dark:border-purple-800" },
   "club-info-board":    { gradient: "from-emerald-50 dark:from-emerald-900/20", border: "from-emerald-400 via-emerald-300", tag: "text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-800" },
-  "jellyfin-2-samsung": { gradient: "from-amber-50 dark:from-amber-900/20",   border: "from-amber-400 via-amber-300",    tag: "text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-900/30 dark:border-amber-800" },
+  "apps-2-samsung":     { gradient: "from-amber-50 dark:from-amber-900/20",   border: "from-amber-400 via-amber-300",    tag: "text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-900/30 dark:border-amber-800" },
   "container-cleaning": { gradient: "from-teal-50 dark:from-teal-900/20",    border: "from-teal-400 via-teal-300",      tag: "text-teal-700 bg-teal-50 border-teal-200 dark:text-teal-300 dark:bg-teal-900/30 dark:border-teal-800" },
 };
 

@@ -1,10 +1,8 @@
-import React from "react";
-
 export default function LogosStrip() {
   const items = [
     { name: "GitHub", href: "https://github.com/PatrickSt1991" },
     { name: "Sportlink", href: "https://clubinfoboard.madebypatrick.nl" },
-    { name: "Jellyfin", href: "https://github.com/PatrickSt1991/Samsung-Jellyfin-Installer" },
+    { name: "Apps2Samsung", href: "https://github.com/Apps2Samsung/Apps2Samsung" },
   ];
 
   return (
