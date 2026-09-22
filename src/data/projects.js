@@ -87,7 +87,7 @@ const projectList = [
   {
     slug: "container-cleaning",
     title: "HA Container Reiniging",
-    description: "Home Assistant integratie — mis nooit meer een containerreiniging.",
+    description: "Home Assistant integratie: mis nooit meer een containerreiniging.",
     tags: ["Python", "Home Assistant", "Integration"],
     repo: "https://github.com/PatrickSt1991/ha-afvalcontainer-cleaning",
     download: "https://github.com/PatrickSt1991/ha-afvalcontainer-cleaning/releases/latest",

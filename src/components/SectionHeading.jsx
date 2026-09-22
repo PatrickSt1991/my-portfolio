@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SectionHeading({ eyebrow, title, description, align = "center" }) {
   const alignClass = align === "left" ? "items-start text-left" : "items-center text-center";
   return (

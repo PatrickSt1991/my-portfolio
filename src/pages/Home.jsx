@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import profielfoto from "../assets/patrick.jpg";
+// De originele patrick.jpg is 4000x4000 (1,5 MB); de foto wordt hooguit 288 CSS-px
+// breed getoond. Deze twee varianten dekken 2x DPR voor een fractie van het gewicht.
+import profielfotoWebp from "../assets/patrick-576.webp";
+import profielfotoJpg from "../assets/patrick-576.jpg";
 import { projects } from "../data/projects";
 import Seo from "../components/Seo";
+import Reveal from "../components/Reveal";
 import RepoBadge from "../components/RepoBadge";
 import { useGithub } from "../hooks/useGithub";
 import { formatCount } from "../data/github";
+import { useCountUp, useInView } from "../hooks/useMotion";
 
 const skills = [
   { name: "C#",             color: "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800" },
@@ -21,243 +26,317 @@ const skills = [
   { name: "GitHub",         color: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700" },
 ];
 
-// Live GitHub-cijfers in de hero; placeholder "—" zolang ze laden of als de
-// API onbereikbaar is, zodat de tegels nooit leeg/kapot ogen.
+/** Terugkerend kopje met een lijn aan weerszijden. */
+function SectionDivider({ children }) {
+  return (
+    <div className="mb-10 flex items-center gap-4">
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
+      <span className="shrink-0 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        {children}
+      </span>
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent dark:via-slate-700" />
+    </div>
+  );
+}
+
+/**
+ * Eén statistiektegel. Het getal telt op zodra de tegel in beeld komt.
+ * Zolang de GitHub-cijfers nog binnenkomen staat er een shimmer in plaats van
+ * een placeholder-teken, zodat de tegel nooit leeg of kapot oogt.
+ */
+function StatCard({ target, label, color, format = formatCount }) {
+  const [ref, inView] = useInView({ threshold: 0.4 });
+  const count = useCountUp(target, inView && target != null);
+  const loading = target == null;
+
+  return (
+    <div ref={ref} className="glass-card group rounded-2xl p-5 text-center transition-transform duration-300 hover:-translate-y-1">
+      {loading ? (
+        <div className="skeleton mx-auto h-8 w-14 rounded-lg bg-slate-200/70 dark:bg-slate-700/50" />
+      ) : (
+        <div className={`tabular text-2xl font-bold sm:text-3xl ${color}`}>{format(count)}</div>
+      )}
+      <div className="mt-1.5 text-xs text-slate-400 dark:text-slate-500">{label}</div>
+    </div>
+  );
+}
+
+// `target: null` betekent "nog aan het laden"; StatCard toont dan een shimmer.
 function buildStats(data) {
   const t = data?.totals;
   return [
-    { value: t ? formatCount(t.stars) : "—",  label: "GitHub sterren", color: "text-amber-500 dark:text-amber-400" },
-    { value: t ? `${t.repos}` : "—",          label: "Repositories",   color: "text-indigo-600 dark:text-indigo-400" },
-    { value: t ? `${t.followers}` : "—",      label: "Volgers",        color: "text-sky-600 dark:text-sky-400" },
-    { value: "100%",                          label: "Open Source",    color: "text-emerald-600 dark:text-emerald-400" },
+    { key: "stars",     target: t ? t.stars : null,     label: "GitHub sterren", color: "text-amber-500 dark:text-amber-400" },
+    { key: "repos",     target: t ? t.repos : null,     label: "Repositories",   color: "text-indigo-600 dark:text-indigo-400" },
+    { key: "followers", target: t ? t.followers : null, label: "Volgers",        color: "text-sky-600 dark:text-sky-400" },
+    { key: "oss",       target: 100, label: "Open Source",   color: "text-emerald-600 dark:text-emerald-400", format: (n) => `${n}%` },
   ];
 }
 
 export default function Home() {
   const { data } = useGithub();
   const stats = buildStats(data);
+
   return (
     <div className="text-slate-800 dark:text-slate-200">
       <Seo
-        title="Patrick Stel — Cloud Application Engineer & Developer"
-        description="Portfolio van Patrick Stel. Open-source tools voor thuis (Home Assistant), sportclubs en bedrijven — waaronder de Apps2Samsung Installer."
+        title="Patrick Stel, Cloud Application Engineer & Developer"
+        description="Portfolio van Patrick Stel. Open-source tools voor thuis (Home Assistant), sportclubs en bedrijven, waaronder de Apps2Samsung Installer."
         path="/"
       />
 
-      {/* ── Hero ──────────────────────────────────────────── */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-100/60 dark:bg-indigo-900/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-sky-100/60 dark:bg-sky-900/20 rounded-full blur-3xl pointer-events-none" />
+      {/* === Hero ====================================================== */}
+      <section className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden">
+        <div className="relative mx-auto w-full max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-16 lg:grid-cols-2">
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-16 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-            {/* Text */}
+            {/* Tekst */}
             <div className="order-2 lg:order-1">
-              <div className="fade-in inline-flex items-center gap-2 rounded-full
-                              bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800
-                              px-4 py-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 mb-6">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"
-                      style={{ boxShadow: "0 0 6px rgba(16,185,129,0.9)" }} />
-                Cloud Application Engineer &amp; Developer
+              <div className="fade-in mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-200
+                              bg-indigo-50/80 px-4 py-1.5 text-xs font-medium text-indigo-600 backdrop-blur
+                              dark:border-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Beschikbaar voor projecten
               </div>
 
               <h1 className="fade-in-1">
-                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-100 leading-tight">
+                <span className="block text-4xl font-bold leading-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-slate-100">
                   Hi, ik ben
                 </span>
-                <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight gradient-text mt-1">
+                <span className="gradient-text mt-1 block text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
                   Patrick Stel
                 </span>
               </h1>
 
-              <p className="fade-in-2 mt-6 text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-lg">
-                Ik bouw praktische tools en applicaties — van webapps tot slimme integraties —
-                voor thuis, sportclubs en bedrijven.
+              <p className="fade-in-2 mt-6 max-w-lg text-lg leading-relaxed text-slate-500 dark:text-slate-400">
+                Cloud Application Engineer &amp; developer. Ik bouw praktische tools en
+                applicaties, van webapps tot slimme integraties, voor thuis, sportclubs
+                en bedrijven.
               </p>
 
               <div className="fade-in-3 mt-8 flex flex-wrap gap-3">
                 <Link
                   to="/projects"
-                  className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700
-                             px-6 py-3 text-sm font-semibold text-white
-                             shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/35
-                             transition-all duration-200"
+                  className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm
+                             font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200
+                             hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/35"
                 >
                   Bekijk projecten
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                       fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </Link>
                 <a
                   href="mailto:patrick@madebypatrick.nl"
-                  className="inline-flex items-center gap-2 rounded-xl
-                             bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
-                             hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600
-                             px-6 py-3 text-sm font-semibold
-                             text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-100
-                             shadow-sm transition-all duration-200"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-6 py-3
+                             text-sm font-semibold text-slate-700 shadow-sm backdrop-blur transition-all duration-200
+                             hover:-translate-y-0.5 hover:border-indigo-300 hover:text-slate-900 hover:shadow-md
+                             dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200
+                             dark:hover:border-indigo-500 dark:hover:text-slate-100"
                 >
                   Contact opnemen
                 </a>
               </div>
             </div>
 
-            {/* Profile image */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-              <div className="relative float-animation">
-                <div className="absolute -inset-10 rounded-full bg-indigo-200/40 dark:bg-indigo-900/30 blur-2xl" />
-                <div className="absolute -inset-16 rounded-full bg-sky-200/30 dark:bg-sky-900/20 blur-3xl" />
-                <div className="relative rounded-full p-[3px]"
-                     style={{ background: "linear-gradient(135deg, #6366f1, #0ea5e9, #6366f1)" }}>
+            {/* Profielfoto */}
+            <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+              <div className="float-animation relative">
+                <div className="pointer-events-none absolute -inset-10 rounded-full bg-indigo-300/30 blur-3xl dark:bg-indigo-800/30" />
+                <div className="pointer-events-none absolute -inset-16 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-900/25" />
+                {/* Draaiende gradient-ring: het masker maakt er een dunne rand van. */}
+                <div
+                  className="ring-spin pointer-events-none absolute -inset-[3px] rounded-full"
+                  style={{
+                    background: "conic-gradient(from 0deg, #6366f1, #0ea5e9, #a855f7, #6366f1)",
+                    mask: "radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px))",
+                    WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px))",
+                  }}
+                />
+                <picture>
+                  <source srcSet={profielfotoWebp} type="image/webp" />
                   <img
-                    src={profielfoto}
+                    src={profielfotoJpg}
                     alt="Patrick Stel"
-                    className="w-48 h-48 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-full object-cover"
+                    width={576}
+                    height={576}
+                    fetchPriority="high"
+                    decoding="async"
+                    className="relative h-48 w-48 rounded-full object-cover shadow-2xl shadow-indigo-500/20
+                               sm:h-56 sm:w-56 lg:h-72 lg:w-72"
                   />
-                </div>
+                </picture>
               </div>
             </div>
           </div>
 
-          {/* Stats row */}
-          <div className="fade-in-4 mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {stats.map(({ value, label, color }) => (
-              <div key={label} className="glass-card rounded-2xl p-5 text-center">
-                <div className={`text-2xl font-bold ${color}`}>{value}</div>
-                <div className="text-xs text-slate-400 dark:text-slate-500 mt-1">{label}</div>
-              </div>
+          {/* Statistieken */}
+          <div className="fade-in-4 mt-16 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {stats.map(({ key, ...stat }) => (
+              <StatCard key={key} {...stat} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── About ─────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-          <span className="text-xs font-semibold tracking-widest text-slate-400 dark:text-slate-500 uppercase shrink-0">Over mij</span>
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-        </div>
+      {/* === Over mij ================================================== */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <Reveal>
+          <SectionDivider>Over mij</SectionDivider>
+        </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-5">
-          <div className="glass-card rounded-2xl p-8">
-            <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full bg-indigo-500 shrink-0" />
-              Wie ben ik
-            </h3>
-            <div className="space-y-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              <p>
-                Cloud Application Engineer overdag, developer in de avonduren. Ik vind het leuk om
-                quality time te hebben met mijn gezin en speel graag een potje op de PlayStation.
-              </p>
-              <p>
-                Het leven is al duur genoeg met betaalde applicaties — ik maak graag gratis
-                oplossingen. Heb je een idee of wil je samenwerken? Neem gerust contact op!
-              </p>
-              <p>
-                Geen enkele server draait gratis — gebruik je een van mijn tools, dan wordt een
-                kleine Ko-fi donatie zeer gewaardeerd.
-              </p>
+        <div className="grid gap-5 md:grid-cols-2">
+          <Reveal delay={80}>
+            <div className="glass-card h-full rounded-2xl p-8">
+              <h2 className="mb-4 flex items-center gap-2.5 text-base font-semibold text-slate-900 dark:text-slate-100">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-indigo-500" />
+                Wie ben ik
+              </h2>
+              <div className="space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                <p>
+                  Cloud Application Engineer overdag, developer in de avonduren. Ik vind het leuk om
+                  quality time te hebben met mijn gezin en speel graag een potje op de PlayStation.
+                </p>
+                <p>
+                  Het leven is al duur genoeg met betaalde applicaties, dus maak ik graag gratis
+                  oplossingen. Heb je een idee of wil je samenwerken? Neem gerust contact op!
+                </p>
+                <p>
+                  Geen enkele server draait gratis. Gebruik je een van mijn tools, dan wordt een
+                  kleine Ko-fi donatie zeer gewaardeerd.
+                </p>
+              </div>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="glass-card rounded-2xl p-8">
-            <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2.5">
-              <span className="h-2 w-2 rounded-full bg-sky-500 shrink-0" />
-              Actieve projecten
-            </h3>
-            <ul className="space-y-1">
-              {projects.map((p) => (
-                <li key={p.slug}>
-                  <Link
-                    to={`/projects/${p.slug}`}
-                    className="flex items-center justify-between group rounded-xl px-3 py-2.5
-                               hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all duration-200 -mx-3"
-                  >
-                    <span className="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">
-                      {p.title}
-                    </span>
-                    <svg className="h-4 w-4 text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 group-hover:translate-x-1 transition-all"
-                         fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Reveal delay={160}>
+            <div className="glass-card h-full rounded-2xl p-8">
+              <h2 className="mb-4 flex items-center gap-2.5 text-base font-semibold text-slate-900 dark:text-slate-100">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-sky-500" />
+                Actieve projecten
+              </h2>
+              <ul className="space-y-1">
+                {projects.map((p) => (
+                  <li key={p.slug}>
+                    <Link
+                      to={`/projects/${p.slug}`}
+                      className="group -mx-3 flex items-center justify-between rounded-xl px-3 py-2.5
+                                 transition-all duration-200 hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
+                    >
+                      <span className="text-sm text-slate-600 transition-colors group-hover:text-slate-900
+                                       dark:text-slate-300 dark:group-hover:text-slate-100">
+                        {p.title}
+                      </span>
+                      <svg className="h-4 w-4 text-slate-300 transition-all group-hover:translate-x-1
+                                      group-hover:text-indigo-500 dark:text-slate-600 dark:group-hover:text-indigo-400"
+                           fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── Tech Stack ────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-          <span className="text-xs font-semibold tracking-widest text-slate-400 dark:text-slate-500 uppercase shrink-0">Tech Stack</span>
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
-        </div>
+      {/* === Tech stack ================================================ */}
+      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <Reveal>
+          <SectionDivider>Tech stack</SectionDivider>
+        </Reveal>
         <div className="flex flex-wrap gap-2">
-          {skills.map(({ name, color }) => (
-            <span key={name} className={`inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium ${color}`}>
-              {name}
-            </span>
+          {skills.map(({ name, color }, i) => (
+            <Reveal key={name} as="span" delay={i * 40} className="inline-block">
+              <span
+                className={`inline-flex cursor-default items-center rounded-full border px-4 py-1.5 text-sm
+                            font-medium transition-transform duration-200 hover:-translate-y-0.5 ${color}`}
+              >
+                {name}
+              </span>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* ── Featured Projects ──────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <div className="h-px w-6 bg-indigo-500" />
-            <span className="text-xs font-semibold tracking-widest text-slate-400 dark:text-slate-500 uppercase">Projecten</span>
-          </div>
-          <Link to="/projects"
-            className="inline-flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-            Alle projecten
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {projects.slice(0, 3).map((project) => (
-            <Link key={project.slug} to={`/projects/${project.slug}`}
-              className="glass-card rounded-2xl overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-              <div className="aspect-video bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center p-8">
-                <img src={project.image} alt={project.title}
-                  className="max-h-20 w-auto object-contain opacity-90 group-hover:opacity-100
-                             group-hover:scale-110 transition-all duration-300"
-                  loading="lazy" />
-              </div>
-              <div className="p-5">
-                <h3 className="font-semibold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
-                  {project.description}
-                </p>
-                {project.tags && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full px-2.5 py-0.5">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-                {project.repo && <RepoBadge repo={project.repo} className="mt-3" />}
-                <div className="mt-4 flex items-center text-sm font-medium text-indigo-500 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
-                  Bekijk project
-                  <svg className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform"
-                       fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
-              </div>
+      {/* === Uitgelichte projecten ===================================== */}
+      <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="mb-8 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-6 bg-indigo-500" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+                Projecten
+              </span>
+            </div>
+            <Link
+              to="/projects"
+              className="group inline-flex items-center gap-1 text-sm text-slate-500 transition-colors
+                         hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+            >
+              Alle projecten
+              <svg className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                   fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
             </Link>
+          </div>
+        </Reveal>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.slice(0, 3).map((project, i) => (
+            <Reveal key={project.slug} delay={i * 110}>
+              <Link
+                to={`/projects/${project.slug}`}
+                className="glass-card group flex h-full flex-col overflow-hidden rounded-2xl
+                           transition-transform duration-300 hover:-translate-y-1.5"
+              >
+                <div className="flex aspect-video items-center justify-center bg-slate-100/60 p-8 dark:bg-slate-800/40">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="max-h-20 w-auto object-contain opacity-90 transition-all duration-500
+                               group-hover:scale-110 group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="font-semibold text-slate-900 transition-colors group-hover:text-indigo-600
+                                 dark:text-slate-100 dark:group-hover:text-indigo-400">
+                    {project.title}
+                  </h3>
+                  <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    {project.description}
+                  </p>
+                  {project.tags && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-slate-200 bg-slate-100/80 px-2.5 py-0.5 text-xs
+                                     text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {project.repo && <RepoBadge repo={project.repo} className="mt-3" />}
+                  <div className="mt-4 flex items-center pt-1 text-sm font-medium text-indigo-500
+                                  group-hover:text-indigo-700 dark:text-indigo-400 dark:group-hover:text-indigo-300">
+                    Bekijk project
+                    <svg className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1"
+                         fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </section>
