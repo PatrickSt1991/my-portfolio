@@ -53,9 +53,15 @@ regelt twee dingen:
 1. **SPA-fallback.** Alles wat geen bestaand bestand of map is, gaat naar
    `index.html`, zodat een directe link naar `/projects` werkt in plaats van
    een 404 te geven.
-2. **Cachebeleid.** Bestanden onder `assets/` dragen een contenthash en mogen
-   een jaar gecachet worden; `index.html` juist nooit, anders blijven
-   bezoekers na een deploy op de oude bundle hangen.
+2. **Cachebeleid.** Bestanden met een contenthash van acht tekens in hun naam
+   (`index-BgwBZwm-.css`) mogen een jaar gecachet worden, want ze kunnen niet
+   veranderen zonder dat ook hun naam verandert. Bestanden uit `public/` zoals
+   `og-image.png` vallen daar bewust buiten, zodat je die kunt vervangen.
+   `index.html` wordt nooit gecachet, anders blijven bezoekers na een deploy
+   op de oude bundle hangen.
+
+De rewrite-regels zijn identiek aan wat er al op de server stond; alleen de
+cache- en compressieregels zijn nieuw.
 
 ## Handmatig een deploy starten
 
