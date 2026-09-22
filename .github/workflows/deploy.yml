@@ -1,0 +1,79 @@
+# Bouwt de site bij elke push naar main en publiceert de statische output naar
+# de `deploy` branch. Cloud86 (Plesk) pullt die branch automatisch naar
+# /httpdocs, zodat er geen Node op de server nodig is en er geen wachtwoorden
+# of sleutels in GitHub hoeven te staan.
+
+name: Deploy naar Cloud86
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Twee deploys tegelijk zouden elkaars push naar `deploy` kunnen verliezen.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Bouwen en publiceren
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository uitchecken
+        uses: actions/checkout@v5
+        with:
+          # Volledige historie: de publicatiestap zet er een commit bovenop de
+          # bestaande `deploy` branch, wat niet kan vanuit een shallow clone.
+          fetch-depth: 0
+
+      - name: Node installeren
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Dependencies installeren
+        run: npm ci
+
+      - name: Linten
+        run: npm run lint
+
+      - name: Bouwen
+        run: npm run build
+
+      - name: Publiceren naar de deploy-branch
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git show-ref --verify --quiet refs/remotes/origin/deploy; then
+            git worktree add publish -B deploy origin/deploy
+          else
+            echo "Branch 'deploy' bestaat nog niet, aanmaken."
+            git worktree add --detach publish
+            git -C publish checkout --orphan deploy
+            git -C publish reset --hard
+          fi
+
+          # Inhoud volledig vervangen, zodat verwijderde bestanden ook echt
+          # van de server verdwijnen. .git blijft uiteraard staan.
+          find publish -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a dist/. publish/
+
+          cd publish
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "De build is identiek aan wat er al gepubliceerd staat, niets te doen."
+            exit 0
+          fi
+
+          git commit -m "Build van ${GITHUB_SHA::7}"
+          git push origin deploy

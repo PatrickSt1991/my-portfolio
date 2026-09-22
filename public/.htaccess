@@ -1,0 +1,38 @@
+# Serverconfiguratie voor de statische build van madebypatrick.nl.
+# Dit bestand staat in public/ en komt dus bij elke build mee in dist/,
+# zodat de serverinstellingen samen met de site versiebeheerd worden.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Assets krijgen een contenthash in hun bestandsnaam. Markeren voor de
+  # cache-regel verderop; de regel stopt de verwerking bewust niet.
+  RewriteRule ^assets/ - [E=LONG_CACHE:1]
+
+  # Bestaande bestanden en mappen gewoon uitserveren.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Al het overige naar index.html, zodat react-router de route afhandelt.
+  # Zonder deze regel geeft een directe link naar /projects een 404.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Gehashte assets mogen een jaar blijven staan: een nieuwe build levert
+  # simpelweg een nieuwe bestandsnaam op.
+  Header set Cache-Control "public, max-age=31536000, immutable" env=LONG_CACHE
+
+  # index.html juist nooit cachen, anders blijven bezoekers na een deploy op
+  # de oude bundle hangen.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+    application/javascript application/json image/svg+xml
+</IfModule>
