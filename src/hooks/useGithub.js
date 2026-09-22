@@ -91,7 +91,7 @@ async function load() {
       if (Date.now() - ts < CACHE_TTL) return data;
     }
   } catch {
-    /* sessionStorage niet beschikbaar — gewoon live ophalen */
+    /* sessionStorage niet beschikbaar: gewoon live ophalen */
   }
 
   const data = await fetchFromApi();
@@ -99,7 +99,7 @@ async function load() {
   try {
     sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
   } catch {
-    /* quota/privé-modus — niet erg */
+    /* quota of privémodus: niet erg */
   }
   return data;
 }

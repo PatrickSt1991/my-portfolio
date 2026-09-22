@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Seo from "../components/Seo";
+import Reveal from "../components/Reveal";
+import { GithubIcon } from "../components/GhIcons";
 
 export default function Contact() {
   const [status, setStatus] = useState("idle");
@@ -48,12 +50,12 @@ export default function Contact() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-16 text-slate-800 dark:text-slate-200">
       <Seo
-        title="Contact — Patrick Stel"
+        title="Contact opnemen met Patrick Stel"
         description="Neem contact op met Patrick Stel voor vragen, ideeën of samenwerking."
         path="/contact"
       />
 
-      <div className="mb-12">
+      <div className="fade-in mb-12">
         <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800
                         px-4 py-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 mb-5">
           Contact
@@ -64,8 +66,8 @@ export default function Contact() {
 
       <div className="grid lg:grid-cols-3 gap-6">
 
-        {/* Left: contact info */}
-        <div className="lg:col-span-1 space-y-4">
+        {/* Links: directe contactgegevens */}
+        <Reveal className="space-y-4 lg:col-span-1">
           <div className="glass-card rounded-2xl p-6">
             <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-5">Direct contact</p>
             <div className="space-y-4">
@@ -86,16 +88,7 @@ export default function Contact() {
                 className="flex items-center gap-3 group">
                 <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center
                                 shrink-0 group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors">
-                  <svg className="h-4 w-4 text-slate-600 dark:text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57
-                      0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695
-                      -.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99
-                      .105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225
-                      -.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405
-                      c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225
-                      0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3
-                      0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
+                  <GithubIcon className="h-4 w-4 text-slate-600 dark:text-slate-400" />
                 </div>
                 <span className="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">PatrickSt1991</span>
               </a>
@@ -125,13 +118,13 @@ export default function Contact() {
               ☕ Ko-fi donatie
             </a>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Right: Form */}
-        <div className="lg:col-span-2">
+        {/* Rechts: formulier */}
+        <Reveal delay={120} className="lg:col-span-2">
           <form onSubmit={onSubmit} className="glass-card rounded-2xl p-8">
             {status !== "idle" && message && (
-              <div className={`mb-6 rounded-xl px-4 py-3 text-sm border ${
+              <div role="status" aria-live="polite" className={`mb-6 rounded-xl border px-4 py-3 text-sm ${
                 status === "sent"
                   ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
                   : status === "error"
@@ -163,20 +156,21 @@ export default function Contact() {
             <div className="mt-6">
               <button type="submit"
                 disabled={status === "sending" || status === "sent"}
-                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700
-                           disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 text-sm font-semibold
-                           text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900 transition-all duration-200">
+                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold
+                           text-white shadow-lg shadow-indigo-500/25 transition-all duration-200
+                           hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/35
+                           disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-lg">
                 {status === "sending" && (
                   <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
                 )}
-                {status === "sending" ? "Versturen…" : status === "sent" ? "✓ Verzonden!" : "Verstuur bericht"}
+                {status === "sending" ? "Versturen..." : status === "sent" ? "✓ Verzonden!" : "Verstuur bericht"}
               </button>
             </div>
           </form>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

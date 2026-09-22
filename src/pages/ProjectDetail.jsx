@@ -2,6 +2,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { projects } from "../data/projects";
 import Seo from "../components/Seo";
 import RepoBadge from "../components/RepoBadge";
+import Reveal from "../components/Reveal";
+import { GithubIcon } from "../components/GhIcons";
 
 const themes = {
   "digi-graf":          { gradient: "from-purple-50 dark:from-purple-900/20",  border: "from-purple-400 via-purple-300",  tag: "text-purple-700 bg-purple-50 border-purple-200 dark:text-purple-300 dark:bg-purple-900/30 dark:border-purple-800" },
@@ -24,20 +26,6 @@ function IconExternalLink() {
     </svg>
   );
 }
-function IconGithub() {
-  return (
-    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57
-        0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695
-        -.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99
-        .105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225
-        -.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405
-        c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225
-        0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3
-        0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-    </svg>
-  );
-}
 function IconBook() {
   return (
     <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -57,14 +45,18 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-center py-20 px-4">
-        <Seo title="Project niet gevonden — Patrick Stel" description="Dit project bestaat niet of is verwijderd." path="/projects" />
+        <Seo title="Project niet gevonden" description="Dit project bestaat niet of is verwijderd." path="/projects" />
         <div className="text-7xl font-bold text-slate-200 dark:text-slate-800 mb-4">404</div>
         <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Project niet gevonden</h2>
         <p className="text-slate-500 dark:text-slate-400 mb-8">Dit project bestaat niet of is verwijderd.</p>
         <Link to="/projects"
           className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700
-                     px-6 py-3 text-sm font-semibold text-white transition-all">
-          ← Terug naar projecten
+                     px-6 py-3 text-sm font-semibold text-white transition-all
+                     hover:-translate-y-0.5">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          Terug naar projecten
         </Link>
       </div>
     );
@@ -73,14 +65,14 @@ export default function ProjectDetail() {
   const buttons = [
     project.download && { label: "Download",    href: project.download, icon: <IconDownload />, cls: "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900" },
     project.link     && { label: "Live Demo",   href: project.link,     icon: <IconExternalLink />, cls: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-200 dark:shadow-emerald-900" },
-    project.repo     && { label: "Source Code", href: project.repo,     icon: <IconGithub />,    cls: "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-100 shadow-sm" },
+    project.repo     && { label: "Source Code", href: project.repo,     icon: <GithubIcon />,    cls: "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-100 shadow-sm" },
     project.manual   && { label: "Handleiding", href: project.manual,   icon: <IconBook />,      cls: "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-100 shadow-sm" },
   ].filter(Boolean);
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-8 pb-16 text-slate-800 dark:text-slate-200">
       <Seo
-        title={`${project.title} — Patrick Stel`}
+        title={`${project.title}, een project van Patrick Stel`}
         description={project.description}
         path={`/projects/${project.slug}`}
       />
@@ -95,7 +87,7 @@ export default function ProjectDetail() {
       </Link>
 
       {/* Hero card */}
-      <div className="mt-6 glass-card rounded-2xl overflow-hidden">
+      <Reveal className="mt-6 glass-card rounded-2xl overflow-hidden">
         <div className={`h-[2px] bg-gradient-to-r ${theme.border} to-transparent`} />
         <div className={`bg-gradient-to-br ${theme.gradient} via-white dark:via-slate-900 to-white dark:to-slate-900 p-8`}>
           <div className="flex flex-col sm:flex-row gap-6 items-start">
@@ -132,10 +124,10 @@ export default function ProjectDetail() {
             </div>
           )}
         </div>
-      </div>
+      </Reveal>
 
       {/* Content card */}
-      <div className="mt-5 glass-card rounded-2xl p-8">
+      <Reveal delay={90} className="mt-5 glass-card rounded-2xl p-8">
         {project.topContent && (
           <div className="mb-6 pb-6 border-b border-slate-100 dark:border-slate-700/50
                          [&_blockquote]:pl-5 [&_blockquote]:border-l-2 [&_blockquote]:border-indigo-400
@@ -156,7 +148,7 @@ export default function ProjectDetail() {
                         [&_strong]:text-slate-800 dark:[&_strong]:text-slate-200 [&_strong]:font-semibold
                         [&_a]:text-indigo-600 dark:[&_a]:text-indigo-400 [&_a]:hover:text-indigo-800 dark:[&_a]:hover:text-indigo-300"
           dangerouslySetInnerHTML={{ __html: project.content }} />
-      </div>
+      </Reveal>
 
       {/* Other projects */}
       {others.length > 0 && (
@@ -170,9 +162,19 @@ export default function ProjectDetail() {
             {others.map((p) => {
               const t = themes[p.slug] ?? themes["digi-graf"];
               return (
-                <div key={p.slug} onClick={() => navigate(`/projects/${p.slug}`)}
-                  className="glass-card rounded-2xl overflow-hidden cursor-pointer
-                             hover:-translate-y-1 transition-all duration-300 group">
+                <article key={p.slug}
+                  role="link"
+                  tabIndex={0}
+                  aria-label={`Bekijk ${p.title}`}
+                  onClick={() => navigate(`/projects/${p.slug}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      navigate(`/projects/${p.slug}`);
+                    }
+                  }}
+                  className="glass-card group cursor-pointer overflow-hidden rounded-2xl
+                             transition-transform duration-300 hover:-translate-y-1.5">
                   <div className={`h-[2px] bg-gradient-to-r ${t.border} to-transparent`} />
                   <div className="p-5">
                     <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm
@@ -182,7 +184,7 @@ export default function ProjectDetail() {
                     <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{p.title}</p>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">{p.description}</p>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>

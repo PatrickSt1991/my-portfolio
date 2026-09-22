@@ -10,7 +10,7 @@ export default function RepoCard({ repo }) {
       href={repo.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="glass-card rounded-2xl p-5 flex flex-col group hover:-translate-y-1 transition-all duration-300"
+      className="glass-card group flex h-full flex-col rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1.5"
     >
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-semibold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
