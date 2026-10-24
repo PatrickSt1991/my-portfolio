@@ -19,6 +19,7 @@ function repoKey(ref) {
 const themes = {
   "digi-graf":          { imageBg: "from-purple-50 to-slate-50 dark:from-purple-900/20 dark:to-slate-800",  topBorder: "from-purple-400 via-purple-300",  tagColor: "text-purple-600 dark:text-purple-400" },
   "club-info-board":    { imageBg: "from-emerald-50 to-slate-50 dark:from-emerald-900/20 dark:to-slate-800", topBorder: "from-emerald-400 via-emerald-300", tagColor: "text-emerald-600 dark:text-emerald-400" },
+  "tessel":             { imageBg: "from-sky-50 to-slate-50 dark:from-sky-900/20 dark:to-slate-800",       topBorder: "from-sky-400 via-sky-300",       tagColor: "text-sky-600 dark:text-sky-400" },
   "apps-2-samsung": { imageBg: "from-amber-50 to-slate-50 dark:from-amber-900/20 dark:to-slate-800",   topBorder: "from-amber-400 via-amber-300",   tagColor: "text-amber-600 dark:text-amber-400" },
   "container-cleaning": { imageBg: "from-teal-50 to-slate-50 dark:from-teal-900/20 dark:to-slate-800",    topBorder: "from-teal-400 via-teal-300",     tagColor: "text-teal-600 dark:text-teal-400" },
 };
