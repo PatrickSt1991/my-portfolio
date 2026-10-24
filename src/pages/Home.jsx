@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // breed getoond. Deze twee varianten dekken 2x DPR voor een fractie van het gewicht.
 import profielfotoWebp from "../assets/patrick-576.webp";
 import profielfotoJpg from "../assets/patrick-576.jpg";
-import { projects } from "../data/projects";
+import { projects, featured } from "../data/projects";
 import Seo from "../components/Seo";
 import Reveal from "../components/Reveal";
 import RepoBadge from "../components/RepoBadge";
@@ -287,8 +287,8 @@ export default function Home() {
           </div>
         </Reveal>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, 3).map((project, i) => (
+        <div className="grid gap-5 sm:grid-cols-2">
+          {featured.map((project, i) => (
             <Reveal key={project.slug} delay={i * 110}>
               <Link
                 to={`/projects/${project.slug}`}

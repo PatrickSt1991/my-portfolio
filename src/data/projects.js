@@ -2,6 +2,7 @@ import dglogo from "../assets/dg-logo.svg";
 import clublogo from "../assets/sport-team-manager-logo.svg";
 import tizenlogo from "../assets/jellyfin-tizen-logo.svg";
 import containerlogo from "../assets/ha-cc.svg";
+import tessellogo from "../assets/tessel-logo.svg";
 
 const projectList = [
   {
@@ -61,6 +62,36 @@ const projectList = [
     `,
   },
   {
+    slug: "tessel",
+    title: "Tessel",
+    description: "Mediaspeler voor Samsung Tizen TV's: USB, SMB, DLNA, WebDAV en netwerkstreams, met ondertitels die wél werken.",
+    tags: ["JavaScript", "Tizen", "Samsung TV", "SMB", "DLNA", "WebDAV"],
+    repo: "https://github.com/PatrickSt1991/tessel-tizen-tv",
+    download: "https://github.com/PatrickSt1991/tessel-tizen-tv/releases/latest",
+    manual: "https://github.com/PatrickSt1991/tessel-tizen-tv/blob/main/README.md",
+    link: "https://tessel.madebypatrick.nl/",
+    image: tessellogo,
+    topContent: `
+      <blockquote>"Je NAS, USB-stick of stream rechtstreeks op je Samsung TV, zonder extra kastje."</blockquote>
+      <p>Tessel is een mediaspeler voor Samsung Tizen TV's vanaf 2017. De app draait op Samsungs eigen AVPlay, dus video wordt hardwareversneld afgespeeld en de afstandsbediening werkt zoals je gewend bent.</p>
+    `,
+    content: `
+      <p class="mb-4">Blader door een USB-stick, een SMB-share op je NAS, een DLNA-server of een WebDAV-map en speel af wat de TV kan decoderen: H.264, HEVC en VP9, met AAC, MP3, AC3 en EAC3 als audio. HLS, DASH, RTSP en RTMP-streams spelen ook rechtstreeks.</p>
+      <p class="font-semibold text-slate-200 mb-2">Wat Tessel anders maakt</p>
+      <ul class="list-disc pl-6 mb-4 space-y-2">
+        <li><strong>Ondertitels die echt in beeld komen:</strong> SRT, VTT, ASS en SAMI naast het bestand of ingebed in MP4 en MKV, met instelbaar lettertype, grootte, kleur en positie.</li>
+        <li><strong>Alle servers op één tegel:</strong> SMB- en WebDAV-servers die je zelf instelt plus de DLNA-servers die Tessel op het netwerk vindt, zoals Plex, Jellyfin of de mediaserver van je NAS.</li>
+        <li><strong>Verder kijken waar je was:</strong> een half bekeken bestand vraagt of je door wilt gaan, mappen tonen wat al gezien is en de cijfertoetsen springen in stappen van een tiende.</li>
+        <li><strong>Muziek, foto's en afspeellijsten:</strong> een mini-speler met albumhoes en tags, een fotoviewer met diashow en M3U- of PLS-lijsten voor IPTV-kanalen.</li>
+        <li><strong>Casten vanaf je telefoon:</strong> scan één keer een QR-code, plak een link en de TV speelt hem af. Geen account, geen app.</li>
+        <li><strong>Transcode-server voor de rest:</strong> DivX, DTS en TrueHD, of echte 5.1 naar je soundbar, via een optionele Docker-container op je NAS of pc.</li>
+        <li><strong>Jij bepaalt het netwerkverkeer:</strong> alles toestaan, alleen je eigen servers of helemaal niets voor een TV die alleen USB mag lezen.</li>
+      </ul>
+      <p class="mb-3">Installeren gaat het makkelijkst met <a href="/projects/apps-2-samsung">Apps 2 Samsung</a>: kies het kanaal Tizen Community en daarna Tessel. De app wordt dan voor je gesigneerd en op de TV gezet. Handmatig kan ook met een eigen distributor-certificaat en <code>sdb install</code>.</p>
+      <p class="mb-3">Tessel heette tot versie 1.7.0 VLC TV. Het is een onafhankelijk project dat geen libVLC gebruikt en niet aan VideoLAN verbonden is.</p>
+    `,
+  },
+  {
     slug: "apps-2-samsung",
     title: "Apps 2 Samsung",
     description: "Applicatie om snel en eenvoudig apps op je Samsung Smart TV te installeren.",
@@ -102,11 +133,11 @@ const projectList = [
   },
 ];
 
-// Featured first: lead with the Samsung Jellyfin Installer (1.4k+ ⭐),
-// then the rest. Drives both the homepage "Featured" grid (slice 0..3)
-// and ordering on the Projects page.
+// Tessel en Apps 2 Samsung voorop: die twee vormen samen het uitgelichte
+// blok op de homepage en staan daardoor ook bovenaan de Projecten-pagina.
 const order = [
-  "jellyfin-2-samsung",
+  "tessel",
+  "apps-2-samsung",
   "club-info-board",
   "digi-graf",
   "container-cleaning",
@@ -115,3 +146,10 @@ const order = [
 export const projects = [...projectList].sort(
   (a, b) => order.indexOf(a.slug) - order.indexOf(b.slug)
 );
+
+// De projecten in het uitgelichte blok op de homepage. Twee kaarten die
+// samen de volle breedte vullen, in deze volgorde.
+const featuredSlugs = ["tessel", "apps-2-samsung"];
+export const featured = featuredSlugs
+  .map((slug) => projects.find((p) => p.slug === slug))
+  .filter(Boolean);
